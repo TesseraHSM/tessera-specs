@@ -26,33 +26,33 @@ Versions and revisions are made to this document and logged here. Errata is a se
 
 Contents
 
-[1 Version History 2](#_Toc239416430)
+[1 Version History 2](#version-history)
 
-[2 Introduction 4](#_Toc239416431)
+[2 Introduction 4](#introduction)
 
-[3 Concepts 4](#_Toc239416432)
+[3 Concepts 4](#concepts)
 
-[3.1 Backup Key 4](#_Toc239416433)
+[3.1 Backup Key 4](#backup-key)
 
-[3.2 Masking Key 5](#_Toc239416434)
+[3.2 Masking Key 5](#masking-key)
 
-[3.3 Partition 6](#_Toc239416435)
+[3.3 Partition 6](#partition)
 
-[3.4 Security Domain 8](#_Toc239416436)
+[3.4 Security Domain 8](#security-domain)
 
-[4 Architecture 10](#_Toc239416437)
+[4 Architecture 10](#architecture)
 
-[4.1 Partition & TEE Initial Setup 10](#_Toc239416438)
+[4.1 Partition & TEE Initial Setup 10](#partition-tee-initial-setup)
 
-[4.1.1 Provisioned Device State 10](#_Toc239416439)
+[4.1.1 Provisioned Device State 10](#provisioned-device-state)
 
-[4.1.2 TEE Creation & Device Assignment 11](#_Toc239416440)
+[4.1.2 TEE Creation & Device Assignment 11](#tee-creation-device-assignment)
 
-[4.1.3 TEE & Partition State after Boot 12](#_Toc239416441)
+[4.1.3 TEE & Partition State after Boot 12](#tee-partition-state-after-boot)
 
-[4.1.4 Initial Attestation 14](#_Toc239416442)
+[4.1.4 Initial Attestation 14](#initial-attestation)
 
-[4.2 Sealing Service 16](#_Toc239416443)
+[4.2 Sealing Service 16](#sealing-service)
 
 Arca – Primitives for Sealing Services
 
