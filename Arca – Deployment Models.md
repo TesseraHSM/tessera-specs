@@ -27,87 +27,87 @@ Versions and revisions are made to this document and logged here. Errata is a se
 
 Contents
 
-[Version History 2](#_Toc239414011)
+[Version History 2](#version-history)
 
-[Arca Models 5](#_Toc239414012)
+[Arca Models 5](#arca-models)
 
-[HSM Overview 5](#_Toc239414013)
+[HSM Overview 5](#hsm-overview)
 
-[Certificate Overview 6](#_Toc239414014)
+[Certificate Overview 6](#certificate-overview)
 
-[Initial Device Identifier (IDevID) Authentication Certificate 7](#_Toc239414015)
+[Initial Device Identifier (IDevID) Authentication Certificate 7](#initial-device-identifier-idevid-authentication-certificate)
 
-[Arca Owner Authentication Certificate (AOAC) 7](#_Toc239414016)
+[Arca Owner Authentication Certificate (AOAC) 7](#arca-owner-authentication-certificate-aoac)
 
-[Partition Authentication Certificate (PAC) 8](#_Toc239414017)
+[Partition Authentication Certificate (PAC) 8](#partition-authentication-certificate-pac)
 
-[Partition Owner Authentication Certificate (POAC) 9](#_Toc239414018)
+[Partition Owner Authentication Certificate (POAC) 9](#partition-owner-authentication-certificate-poac)
 
-[Establishing Partition Ownership 10](#_Toc239414019)
+[Establishing Partition Ownership 10](#establishing-partition-ownership)
 
-[Required Keys 10](#_Toc239414020)
+[Required Keys 10](#required-keys)
 
-[Backup Keys 11](#_Toc239414021)
+[Backup Keys 11](#backup-keys)
 
-[Masking Key 11](#_Toc239414022)
+[Masking Key 11](#masking-key)
 
-[Key Provisioning in Arca 12](#_Toc239414023)
+[Key Provisioning in Arca 12](#key-provisioning-in-arca)
 
-[Partition Cloning Protocol 13](#_Toc239414024)
+[Partition Cloning Protocol 13](#partition-cloning-protocol)
 
-[Users and Roles 14](#_Toc239414025)
+[Users and Roles 14](#users-and-roles)
 
-[Passwords 15](#_Toc239414026)
+[Passwords 15](#passwords)
 
-[Attestation 15](#_Toc239414027)
+[Attestation 15](#attestation)
 
-[Arca HSM cache 16](#_Toc239414028)
+[Arca HSM cache 16](#arca-hsm-cache)
 
-[Key Release Wrap/UNWrap 16](#_Toc239414029)
+[Key Release Wrap/UNWrap 16](#key-release-wrapunwrap)
 
-[Key Resiliency 17](#_Toc239414030)
+[Key Resiliency 17](#key-resiliency)
 
-[Masking and Resilience Goals 18](#_Toc239414031)
+[Masking and Resilience Goals 18](#masking-and-resilience-goals)
 
-[Provisioning BKS 20](#_Toc239414032)
+[Provisioning BKS 20](#provisioning-bks)
 
-[VF Reset: 22](#_Toc239414033)
+[VF Reset: 22](#vf-reset)
 
-[Partition Authentication Certificate (PAC) Validation 23](#_Toc239414034)
+[Partition Authentication Certificate (PAC) Validation 23](#partition-authentication-certificate-pac-validation)
 
-[Partition Owner Authentication Certificate (POAC) Provisioning: 23](#_Toc239414035)
+[Partition Owner Authentication Certificate (POAC) Provisioning: 23](#partition-owner-authentication-certificate-poac-provisioning)
 
-[Provisioning BKS3 25](#_Toc239414036)
+[Provisioning BKS3 25](#provisioning-bks3)
 
-[Partition Persistence 26](#_Toc239414037)
+[Partition Persistence 26](#partition-persistence)
 
-[Initial State 27](#_Toc239414038)
+[Initial State 27](#initial-state)
 
-[Key Sealing 27](#_Toc239414039)
+[Key Sealing 27](#key-sealing)
 
-[Local Key Recovery 28](#_Toc239414040)
+[Local Key Recovery 28](#local-key-recovery)
 
-[Live Migration Key Recovery 29](#_Toc239414041)
+[Live Migration Key Recovery 29](#live-migration-key-recovery)
 
-[Arca As HSM Service Endpoint 31](#_Toc239414042)
+[Arca As HSM Service Endpoint 31](#arca-as-hsm-service-endpoint)
 
-[Physical Function (PF) and Virtual Function (VF) 31](#_Toc239414043)
+[Physical Function (PF) and Virtual Function (VF) 31](#physical-function-pf-and-virtual-function-vf)
 
-[HSM Service Partitions 31](#_Toc239414044)
+[HSM Service Partitions 31](#hsm-service-partitions)
 
-[Services Mode Difference 32](#_Toc239414045)
+[Services Mode Difference 32](#services-mode-difference)
 
-[Partition Owner Authentication Certificate (POAC) Provisioning 33](#_Toc239414046)
+[Partition Owner Authentication Certificate (POAC) Provisioning 33](#partition-owner-authentication-certificate-poac-provisioning-1)
 
-[Creating, Cloning and Restoring Partitions 34](#_Toc239414047)
+[Creating, Cloning and Restoring Partitions 34](#creating-cloning-and-restoring-partitions)
 
-[To create a partition 34](#_Toc239414048)
+[To create a partition 34](#to-create-a-partition)
 
-[To clone a partition 34](#_Toc239414049)
+[To clone a partition 34](#to-clone-a-partition)
 
-[To recover a partition 34](#_Toc239414050)
+[To recover a partition 34](#to-recover-a-partition)
 
-[Arca Service and HSM cache Integration 35](#_Toc239414051)
+[Arca Service and HSM cache Integration 35](#arca-service-and-hsm-cache-integration)
 
 Arca – Deployment Models
 

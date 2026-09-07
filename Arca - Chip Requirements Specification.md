@@ -32,189 +32,189 @@ Versions and revisions are made to this document and logged here. Errata is a se
 
 Table of Contents
 
-[1 Version History 3](#_Toc239446314)
+[1 Version History 3](#version-history)
 
-[1.1 Known Opens 4](#_Toc239446315)
+[1.1 Known Opens 4](#known-opens)
 
-[2 Introduction 8](#_Toc239446316)
+[2 Introduction 8](#introduction)
 
-[2.1 Scope 8](#_Toc239446317)
+[2.1 Scope 8](#scope)
 
-[2.1.1 Purpose and In-Scope Content 8](#_Toc239446318)
+[2.1.1 Purpose and In-Scope Content 8](#purpose-and-in-scope-content)
 
-[2.1.2 Out-of-Scope Content 8](#_Toc239446319)
+[2.1.2 Out-of-Scope Content 8](#out-of-scope-content)
 
-[2.1.3 Assumptions and Dependencies 8](#_Toc239446320)
+[2.1.3 Assumptions and Dependencies 8](#assumptions-and-dependencies)
 
-[2.2 Requirement Definition 9](#_Toc239446321)
+[2.2 Requirement Definition 9](#requirement-definition)
 
-[2.2.1 PCIe Link Encryption 9](#_Toc239446322)
+[2.2.1 PCIe Link Encryption 9](#pcie-link-encryption)
 
-[2.3 Reference Documents 10](#_Toc239446323)
+[2.3 Reference Documents 10](#reference-documents)
 
-[3 System Context and Product Overview 11](#_Toc239446324)
+[3 System Context and Product Overview 11](#system-context-and-product-overview)
 
-[3.1 Product Overview 11](#_Toc239446325)
+[3.1 Product Overview 11](#product-overview)
 
-[3.2 Theory of Operation Overview 11](#_Toc239446326)
+[3.2 Theory of Operation Overview 11](#theory-of-operation-overview)
 
-[4 Base Platform Requirements 12](#_Toc239446327)
+[4 Base Platform Requirements 12](#base-platform-requirements)
 
-[5 Security and Trust Requirements 14](#_Toc239446328)
+[5 Security and Trust Requirements 14](#security-and-trust-requirements)
 
-[5.1 Security Platform Infrastructure 14](#_Toc239446329)
+[5.1 Security Platform Infrastructure 14](#security-platform-infrastructure)
 
-[5.1.1 Physical Security 14](#_Toc239446330)
+[5.1.1 Physical Security 14](#physical-security)
 
-[5.1.2 TDISP, CMA, and DOE 14](#_Toc239446331)
+[5.1.2 TDISP, CMA, and DOE 14](#tdisp-cma-and-doe)
 
-[5.1.3 Root of Trust 15](#_Toc239446332)
+[5.1.3 Root of Trust 15](#root-of-trust)
 
-[5.1.4 Firmware Security 16](#_Toc239446333)
+[5.1.4 Firmware Security 16](#firmware-security)
 
-[5.2 Chassis Intrusion and Tamper Requirements 16](#_Toc239446334)
+[5.2 Chassis Intrusion and Tamper Requirements 16](#chassis-intrusion-and-tamper-requirements)
 
-[6 Key Management and Storage Requirements 17](#_Toc239446335)
+[6 Key Management and Storage Requirements 17](#key-management-and-storage-requirements)
 
-[6.1 Key Types 17](#_Toc239446336)
+[6.1 Key Types 17](#key-types)
 
-[6.2 Key Organization 18](#_Toc239446337)
+[6.2 Key Organization 18](#key-organization)
 
-[6.3 Offloaded Key Storage 18](#_Toc239446338)
+[6.3 Offloaded Key Storage 18](#offloaded-key-storage)
 
-[6.4 Pinned Key Store 19](#_Toc239446339)
+[6.4 Pinned Key Store 19](#pinned-key-store)
 
-[6.5 Key Management 19](#_Toc239446340)
+[6.5 Key Management 19](#key-management)
 
-[7 Cryptographic Function Requirements 20](#_Toc239446341)
+[7 Cryptographic Function Requirements 20](#cryptographic-function-requirements)
 
-[7.1 General Requirements 21](#_Toc239446342)
+[7.1 General Requirements 21](#general-requirements)
 
-[7.1.1 Pool Manager Requirements 21](#_Toc239446343)
+[7.1.1 Pool Manager Requirements 21](#pool-manager-requirements)
 
-[7.1.2 Other General Requirements 22](#_Toc239446344)
+[7.1.2 Other General Requirements 22](#other-general-requirements)
 
-[7.2 Cryptographic Functions 22](#_Toc239446345)
+[7.2 Cryptographic Functions 22](#cryptographic-functions)
 
-[7.2.1 PCIe IDE 23](#_Toc239446346)
+[7.2.1 PCIe IDE 23](#pcie-ide)
 
-[7.2.2 Security Processor 23](#_Toc239446347)
+[7.2.2 Security Processor 23](#security-processor)
 
-[7.2.3 Host Memory Hashing 24](#_Toc239446348)
+[7.2.3 Host Memory Hashing 24](#host-memory-hashing)
 
-[7.2.4 Key Mover 25](#_Toc239446349)
+[7.2.4 Key Mover 25](#key-mover)
 
-[7.2.5 Accelerator Pools 27](#_Toc239446350)
+[7.2.5 Accelerator Pools 27](#accelerator-pools)
 
-[7.2.6 Random Numbers 27](#_Toc239446351)
+[7.2.6 Random Numbers 27](#random-numbers)
 
-[7.3 Cryptographic Algorithms 28](#_Toc239446352)
+[7.3 Cryptographic Algorithms 28](#cryptographic-algorithms)
 
-[7.3.1 Symmetric Encryption 28](#_Toc239446353)
+[7.3.1 Symmetric Encryption 28](#symmetric-encryption)
 
-[7.3.2 Hashing 29](#_Toc239446354)
+[7.3.2 Hashing 29](#hashing)
 
-[7.3.3 RSA Cryptography 30](#_Toc239446355)
+[7.3.3 RSA Cryptography 30](#rsa-cryptography)
 
-[7.3.4 Elliptic Curve Cryptography 31](#_Toc239446356)
+[7.3.4 Elliptic Curve Cryptography 31](#elliptic-curve-cryptography)
 
-[7.3.5 PQC Cryptography 31](#_Toc239446357)
+[7.3.5 PQC Cryptography 31](#pqc-cryptography)
 
-[7.3.6 PQC-Classical Hybrid Algorithms 32](#_Toc239446358)
+[7.3.6 PQC-Classical Hybrid Algorithms 32](#pqc-classical-hybrid-algorithms)
 
-[8 HSM and Tenant Service Requirements 32](#_Toc239446359)
+[8 HSM and Tenant Service Requirements 32](#hsm-and-tenant-service-requirements)
 
-[8.1 Service Model Overview 32](#_Toc239446360)
+[8.1 Service Model Overview 32](#service-model-overview)
 
-[8.2 HSM and Secure Key Release Services 32](#_Toc239446361)
+[8.2 HSM and Secure Key Release Services 32](#hsm-and-secure-key-release-services)
 
-[9 Performance, Scalability, and QoS Requirements 33](#_Toc239446362)
+[9 Performance, Scalability, and QoS Requirements 33](#performance-scalability-and-qos-requirements)
 
-[9.1 Performance Requirements 33](#_Toc239446363)
+[9.1 Performance Requirements 33](#performance-requirements)
 
-[9.2 Scalability Requirements 34](#_Toc239446364)
+[9.2 Scalability Requirements 34](#scalability-requirements)
 
-[9.3 QoS Requirements 34](#_Toc239446365)
+[9.3 QoS Requirements 34](#qos-requirements)
 
-[9.3.1 QoS Rationale and Operating Model 34](#_Toc239446366)
+[9.3.1 QoS Rationale and Operating Model 34](#qos-rationale-and-operating-model)
 
-[9.3.2 QoS Hardware Requirements 35](#_Toc239446367)
+[9.3.2 QoS Hardware Requirements 35](#qos-hardware-requirements)
 
-[9.3.3 Cryptographic Service QoS 35](#_Toc239446368)
+[9.3.3 Cryptographic Service QoS 35](#cryptographic-service-qos)
 
-[10 Firmware and Lifecycle Requirements 35](#_Toc239446369)
+[10 Firmware and Lifecycle Requirements 35](#firmware-and-lifecycle-requirements)
 
-[10.1 Firmware Development and Compliance 35](#_Toc239446370)
+[10.1 Firmware Development and Compliance 35](#firmware-development-and-compliance)
 
-[10.2 Firmware Update and Rollback 36](#_Toc239446371)
+[10.2 Firmware Update and Rollback 36](#firmware-update-and-rollback)
 
-[10.3 Firmware Services, Recovery, Telemetry, and Maintenance 37](#_Toc239446372)
+[10.3 Firmware Services, Recovery, Telemetry, and Maintenance 37](#firmware-services-recovery-telemetry-and-maintenance)
 
-[10.3.1 Crash Dump 37](#_Toc239446373)
+[10.3.1 Crash Dump 37](#crash-dump)
 
-[10.3.2 Crash Detection, Dump Collection, and Recovery 37](#_Toc239446374)
+[10.3.2 Crash Detection, Dump Collection, and Recovery 37](#crash-detection-dump-collection-and-recovery)
 
-[10.3.3 Maintenance Mode Firmware 38](#_Toc239446375)
+[10.3.3 Maintenance Mode Firmware 38](#maintenance-mode-firmware)
 
-[10.3.4 Telemetry 38](#_Toc239446376)
+[10.3.4 Telemetry 38](#telemetry)
 
-[10.4 Firmware System Requirements 38](#_Toc239446377)
+[10.4 Firmware System Requirements 38](#firmware-system-requirements)
 
-[11 Hardware Implementation Requirements 39](#_Toc239446378)
+[11 Hardware Implementation Requirements 39](#hardware-implementation-requirements)
 
-[11.1 Reset Architecture 39](#_Toc239446379)
+[11.1 Reset Architecture 39](#reset-architecture)
 
-[11.2 Processor Complex and Memory 40](#_Toc239446380)
+[11.2 Processor Complex and Memory 40](#processor-complex-and-memory)
 
-[11.2.1 Control Processor Cores and General Memory 40](#_Toc239446381)
+[11.2.1 Control Processor Cores and General Memory 40](#control-processor-cores-and-general-memory)
 
-[11.2.2 GDMA 40](#_Toc239446382)
+[11.2.2 GDMA 40](#gdma)
 
-[11.2.3 GSRAM 40](#_Toc239446383)
+[11.2.3 GSRAM 40](#gsram)
 
-[11.2.4 Sequencers 41](#_Toc239446384)
+[11.2.4 Sequencers 41](#sequencers)
 
-[11.3 Hardware Interfaces 41](#_Toc239446385)
+[11.3 Hardware Interfaces 41](#hardware-interfaces)
 
-[11.3.1 Real-Time Clock and Chassis Intrusion 41](#_Toc239446386)
+[11.3.1 Real-Time Clock and Chassis Intrusion 41](#real-time-clock-and-chassis-intrusion)
 
-[11.3.2 QSPI 42](#_Toc239446387)
+[11.3.2 QSPI 42](#qspi)
 
-[11.3.3 I2C, I3C and USB 42](#_Toc239446388)
+[11.3.3 I2C, I3C and USB 42](#i2c-i3c-and-usb)
 
-[11.3.4 GPIO 43](#_Toc239446389)
+[11.3.4 GPIO 43](#gpio)
 
-[11.3.5 Interrupt Requirements 43](#_Toc239446390)
+[11.3.5 Interrupt Requirements 43](#interrupt-requirements)
 
-[11.3.6 Counters and Timers 43](#_Toc239446391)
+[11.3.6 Counters and Timers 43](#counters-and-timers)
 
-[11.3.7 Debug 44](#_Toc239446392)
+[11.3.7 Debug 44](#debug)
 
-[11.4 Power Requirements 44](#_Toc239446393)
+[11.4 Power Requirements 44](#power-requirements)
 
-[11.5 Thermal Requirements 45](#_Toc239446394)
+[11.5 Thermal Requirements 45](#thermal-requirements)
 
-[11.5.1 Operating Requirements 45](#_Toc239446395)
+[11.5.1 Operating Requirements 45](#operating-requirements)
 
-[11.6 Package and Mechanical Requirements 46](#_Toc239446396)
+[11.6 Package and Mechanical Requirements 46](#package-and-mechanical-requirements)
 
-[12 Manufacturing and Provisioning Requirements 46](#_Toc239446397)
+[12 Manufacturing and Provisioning Requirements 46](#manufacturing-and-provisioning-requirements)
 
-[12.1 Manufacturing Key Provisioning 46](#_Toc239446398)
+[12.1 Manufacturing Key Provisioning 46](#manufacturing-key-provisioning)
 
-[12.2 ATE Provisioning and Factory Interfaces 46](#_Toc239446399)
+[12.2 ATE Provisioning and Factory Interfaces 46](#ate-provisioning-and-factory-interfaces)
 
-[13 Reliability and Serviceability Requirements 47](#_Toc239446400)
+[13 Reliability and Serviceability Requirements 47](#reliability-and-serviceability-requirements)
 
-[13.1 Memory Reliability and Error Handling 47](#_Toc239446401)
+[13.1 Memory Reliability and Error Handling 47](#memory-reliability-and-error-handling)
 
-[13.2 Soft Error Rate 47](#_Toc239446402)
+[13.2 Soft Error Rate 47](#soft-error-rate)
 
-[14 Appendices - Detailed Data Flow and Host-Memory Interaction 49](#_Toc239446403)
+[14 Appendices - Detailed Data Flow and Host-Memory Interaction 49](#appendices---detailed-data-flow-and-host-memory-interaction)
 
-[14.1 Cryptographic Service Data Flow 49](#_Toc239446404)
+[14.1 Cryptographic Service Data Flow 49](#cryptographic-service-data-flow)
 
-[14.2 Working Space and Buffering 49](#_Toc239446405)
+[14.2 Working Space and Buffering 49](#working-space-and-buffering)
 
 # Introduction
 
