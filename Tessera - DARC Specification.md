@@ -389,11 +389,12 @@ The following CDDL defines the structure. Native-type validation imposes additio
 ```cddl
 DarcKeyObject = {
   1 => 1,                            ; DARC key-object format version
-  2 => P11Version,                   ; PKCS #11 semantic version
-  3 => [+ P11Attribute],             ; supported source attributes and material
-  4 => 0..65535,                     ; vid: PCI Vendor ID
-  5 => 0..65535,                     ; pid: PCI Device ID
-  6 => uint                          ; rev: vendor attribute-schema revision
+  2 => bool,                         ; fips_mode: source operating mode at export
+  3 => P11Version,                   ; PKCS #11 semantic version
+  4 => [+ P11Attribute],             ; supported source attributes and material
+  5 => 0..65535,                     ; vid: PCI Vendor ID
+  6 => 0..65535,                     ; pid: PCI Device ID
+  7 => uint                          ; rev: vendor attribute-schema revision
 }
 
 P11Version = [major: uint, minor: uint]
@@ -415,11 +416,16 @@ P11Value =
 | Label | Field | Requirement | Meaning |
 | --- | --- | --- | --- |
 | `1` | Format version | REQUIRED; integer `1` | Selects this specification's CBOR schema and interpretation rules, independently of the PKCS #11 version |
-| `2` | PKCS #11 version | REQUIRED; `[major, minor]` | Identifies the PKCS #11 semantics of the attributes, for example `[3, 2]` |
-| `3` | Attributes | REQUIRED; non-empty array of `P11Attribute` | Complete list of applicable supported source attributes, including key material; not a PKCS #11 creation template |
-| `4` | `vid` | REQUIRED; unsigned 16-bit integer | PCI-SIG-assigned Vendor ID identifying the schema owner |
-| `5` | `pid` | REQUIRED; unsigned 16-bit integer | PCI Device ID within that vendor's identifier space |
-| `6` | `rev` | REQUIRED; unsigned integer | Vendor attribute-schema revision used to interpret the object's vendor-specific semantics |
+| `2` | `fips_mode` | REQUIRED; boolean | `true` if the source device was operating in FIPS-approved mode at export; `false` otherwise |
+| `3` | PKCS #11 version | REQUIRED; `[major, minor]` | Identifies the PKCS #11 semantics of the attributes, for example `[3, 2]` |
+| `4` | Attributes | REQUIRED; non-empty array of `P11Attribute` | Complete list of applicable supported source attributes, including key material; not a PKCS #11 creation template |
+| `5` | `vid` | REQUIRED; unsigned 16-bit integer | PCI-SIG-assigned Vendor ID identifying the schema owner |
+| `6` | `pid` | REQUIRED; unsigned 16-bit integer | PCI Device ID within that vendor's identifier space |
+| `7` | `rev` | REQUIRED; unsigned integer | Vendor attribute-schema revision used to interpret the object's vendor-specific semantics |
+
+`fips_mode` MUST be obtained from trusted source operating-mode state at export, not supplied by the host or inferred from the key type. If that state cannot be determined, export MUST fail. The field MUST be present; a missing value MUST NOT default to `false`.
+
+The target MUST retain `fips_mode` as authenticated source provenance, not replay it as its own operating mode. It is not proof of module validation, key generation/import history, or approval of every key operation, and does not by itself require the target to operate in FIPS-approved mode. Target operating-mode requirements remain governed by trusted transfer and local policy. On re-export, the exporting device MUST record its own current operating mode; a retained source snapshot MUST NOT substitute for that state.
 
 No outer label `0` or magic string is needed because the authenticated DARC payload profile identifies the object type. A format version alone does not identify a protocol; this object MUST NOT be decoded outside that established context.
 
@@ -431,7 +437,7 @@ The `vid` and `pid` fields use the **PCI** identifier space only: `vid` is the P
 
 The `vid`, `pid`, and `rev` combination MUST identify one immutable schema defining all vendor-specific attribute types, key types, mechanism identifiers, enumeration values, and structured encodings present in the object. The vendor MUST allocate a different revision when their definitions change. The same vendor attribute number under different `vid`, `pid`, or `rev` values MUST NOT be assumed equivalent. Objects requiring incompatible vendor schemas MUST be rejected rather than merged into one ambiguous attribute list.
 
-All three fields, `vid` (key `4`), `pid` (key `5`), and `rev` (key `6`), MUST be present in every object, even when it contains only standard PKCS #11 attributes. Missing values MUST cause rejection; implementations MUST NOT substitute defaults. Standard attribute IDs are identified by PKCS #11 itself; vendor-specific attribute IDs retain their original values in the `CKA_VENDOR_DEFINED` range. Vendor-defined values inside standard attributes, such as key types and mechanisms, use the same object-level schema. No per-attribute namespace string or repeated VID/PID/rev is encoded.
+All three fields, `vid` (key `5`), `pid` (key `6`), and `rev` (key `7`), MUST be present in every object, even when it contains only standard PKCS #11 attributes. Missing values MUST cause rejection; implementations MUST NOT substitute defaults. Standard attribute IDs are identified by PKCS #11 itself; vendor-specific attribute IDs retain their original values in the `CKA_VENDOR_DEFINED` range. Vendor-defined values inside standard attributes, such as key types and mechanisms, use the same object-level schema. No per-attribute namespace string or repeated VID/PID/rev is encoded.
 
 These fields identify the source schema, not a required target product or proof of authenticity. A target with different PCI identifiers MAY import the object if it implements and is authorized to use that exact source schema. The target MUST NOT substitute its own IDs, infer support from a matching VID/PID alone, or treat these fields as device authentication. Schema admission is governed by trusted local policy; DARC's authenticated transfer remains the trust path.
 
@@ -531,8 +537,9 @@ Diagnostic example of the object structure and selected attributes only; the att
 ```cbor
 {
   1: 1,
-  2: [3, 2],
-  3: [
+  2: false,                               / fips_mode: source mode at export /
+  3: [3, 2],
+  4: [
     [0,   [1, 4]],                         / CKA_CLASS: CKO_SECRET_KEY /
     [256, [1, 31]],                        / CKA_KEY_TYPE: CKK_AES /
     [258, [2, h'0102']],                   / CKA_ID /
@@ -540,9 +547,9 @@ Diagnostic example of the object structure and selected attributes only; the att
     [259, [0, true]],                      / CKA_SENSITIVE /
     [354, [0, false]]                      / CKA_EXTRACTABLE /
   ],
-  4: 0x1234,                              / vid /
-  5: 0x5678,                              / pid /
-  6: 1                                    / rev /
+  5: 0x1234,                              / vid /
+  6: 0x5678,                              / pid /
+  7: 1                                    / rev /
 }
 ```
 
@@ -634,7 +641,7 @@ Absence of a one-to-one field does not permit dropping a restriction. The target
 Before export, the source MUST validate that its authorized internal record is complete and consistent and that transfer is permitted. Before installation, the target MUST:
 
 1. Select the authenticated payload profile and successfully AES-KWP-unwrap the complete object before interpreting or releasing any key material.
-2. Decode exactly one deterministic CBOR object; reject duplicate map keys, trailing bytes, unknown format versions, invalid PKCS #11 versions/types, and missing or unadmitted vendor schemas. Enforce explicit limits on total bytes, nesting depth, attribute counts, and component lengths before allocation.
+2. Decode exactly one deterministic CBOR object; reject duplicate map keys, trailing bytes, unknown format versions, invalid PKCS #11 versions/types, missing required fields, an incorrectly typed `fips_mode`, and missing or unadmitted vendor schemas. Enforce explicit limits on total bytes, nesting depth, attribute counts, and component lengths before allocation.
 3. Validate the supported-attribute allowlist, value kinds, PKCS #11 object class, required attributes, cardinality, vendor schema identity, algorithm/parameter combinations, encodings, material consistency, and all version-specific constraints. Reject excluded or unlisted standard attributes regardless of their supplied value kind. No material or mandatory restriction may be supplied by an unauthenticated host-side correction.
 4. Classify source fields under the admitted PKCS #11 or vendor schema as enforceable constraints, source provenance, or non-operative metadata. Unknown semantics MUST cause rejection unless trusted policy explicitly admits preservation as non-operative metadata.
 5. Establish the effective target policy as the intersection of authenticated source constraints, requested usage/scope, and target policy. An empty or ambiguous permission set, unsupported mandatory constraint, unresolved dependency, incompatible target scope, or inability to retain the source record MUST cause rejection.
@@ -718,7 +725,7 @@ Because the TMK is ephemeral to the transfer, revocation does not require TMK es
 
 All TMK derivation, sealing, and wrapping operations occur inside the device FIPS boundary. Hybrid/PQC HPKE profiles follow the negotiation and binding rules of the [Masking Key Transfer Protocol](Tessera%20-%20Transfer%20Masking%20Key%20Protocol.md); a downgrade that strips a PQC component SHALL cause key confirmation (the authenticated HPKE open) to fail.
 
-Defining a native key representation does not establish FIPS approval for its algorithm or implementation. Native mechanisms, vendor formats, and legacy algorithms remain subject to the endpoint's validated operating mode and deployment policy; they MUST NOT be enabled merely because their records can be preserved.
+Defining a native key representation does not establish FIPS approval for its algorithm or implementation. The DARC Key Object's `fips_mode` field records source operating-mode provenance only, as defined in [CBOR Object Structure](#darc-key-encoding); it does not establish target compliance. Native mechanisms, vendor formats, and legacy algorithms remain subject to the endpoint's validated operating mode and deployment policy; they MUST NOT be enabled merely because their records can be preserved.
 
 <a id="darc-replay"></a>
 
